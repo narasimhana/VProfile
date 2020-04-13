@@ -181,6 +181,12 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+		    <configuration>
+          <smtpHost>mail.yourhost.com</smtpHost>
+          <smtpPort implementation="java.lang.Integer">25</smtpPort>
+          <username>nmurthy@welldocinc.com</username>
+          <password>Narasimha@554</password>
+           </configuration>
                 <!-- Optional URL to server. Default value is http://localhost:9000 -->
                 <sonar.host.url>
                   http://myserver:9000
