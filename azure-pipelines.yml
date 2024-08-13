@@ -1,22 +1,45 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+trigger: 
+- main
 
-trigger:
-- master
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Npm@1
+      inputs:
+        command: 'install'
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'run build'
 
-pool:
-  vmImage: ubuntu-latest
+    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'build'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+- stage: Deploy 
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Tech Tutorials With Piyush (9e9c27ce-e0c8-4171-a368-ad16977ec849)'
+        appType: 'webAppLinux'
+        WebAppName: 'TechTutorialsWithPiyush'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop'
+        RuntimeStack: 'STATICSITE|1.0'
