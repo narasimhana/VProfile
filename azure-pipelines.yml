@@ -38,8 +38,8 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'Tech Tutorials With Piyush (9e9c27ce-e0c8-4171-a368-ad16977ec849)'
+        azureSubscription: 'a403d724-8374-435b-92cb-bb8bb89ab37a'
         appType: 'webAppLinux'
-        WebAppName: 'TechTutorialsWithPiyush'
+        WebAppName: 'narasimhatech'
         packageForLinux: '$(System.ArtifactsDirectory)/drop'
-        RuntimeStack: 'STATICSITE|1.0'
+        RuntimeStack: 'Dotnetcore - 6.0'
