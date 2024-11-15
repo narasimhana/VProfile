@@ -38,7 +38,7 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'a403d724-8374-435b-92cb-bb8bb89ab37a'
+        azureSubscription: 'bb96838b-9e93-4687-a653-36bfafe82831'
         appType: 'webAppLinux'
         WebAppName: 'narasimhatech'
         packageForLinux: '$(System.ArtifactsDirectory)/drop'
